@@ -3,18 +3,27 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { MantineProvider } from "@mantine/core";
 import { appWithTranslation } from "next-i18next";
-import { Vazirmatn } from 'next/font/google';
+import { Vazirmatn } from "next/font/google";
+import { ReactElement, ReactNode } from "react";
+import { NextPage } from "next";
 
 const vazirmatn = Vazirmatn({
-  subsets: ["latin", "arabic", "latin-ext"] , 
-  weight:["100","200", "300" ,"400", "500", "600", "700", "800", "900"],
-  variable: '--font-vazirmatn',
+  subsets: ["latin", "arabic", "latin-ext"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-vazirmatn",
 });
 
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
 
-function App(props: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function App(props: AppPropsWithLayout) {
   const { Component, pageProps } = props;
-
+  const getLayout = Component.getLayout ?? ((page) => page);
   return (
     <>
       <Head>
@@ -34,7 +43,6 @@ function App(props: AppProps) {
           rel="stylesheet"
         ></link>
       </Head>
-
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
@@ -43,10 +51,11 @@ function App(props: AppProps) {
         //   colorScheme: 'light',
         // }}
       >
-        <main  className={`${vazirmatn.variable}`}>
-          <Component {...pageProps} />
-
-        </main>
+        {getLayout(
+          <main className={`${vazirmatn.variable} min-h-screen`}>
+            <Component {...pageProps} />
+          </main>
+        )}
       </MantineProvider>
     </>
   );

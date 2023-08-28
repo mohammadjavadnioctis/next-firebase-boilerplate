@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { Inter, Vazirmatn } from 'next/font/google'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { GetStaticProps } from 'next';
@@ -6,6 +5,7 @@ import useTrans from '@/utils/hooks/useTrans';
 import HomePage from '@/components/Pages/Homepage';
 import { ReactElement } from 'react';
 import ClientLayout from '@/components/Layouts/ClientLayout';
+import AboutPage from '@/components/Pages/AboutPage/AboutPage';
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -27,18 +27,20 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 
 
-function Home() {
+function About() {
   const t = useTrans()
   return (
     // <main
     //   className={`flex min-h-screen flex-col items-center justify-between p-24 ${vazirmatn.className}`}
     // >
-        <HomePage />
+        <AboutPage />
     // </main>
   )
 }
 
-Home.getLayout = function getLayout(page: ReactElement) {
+About.displayName = "About"
+
+About.getLayout = function getLayout(page: ReactElement) {
   return (
     
       <ClientLayout>{page}</ClientLayout>
@@ -46,5 +48,5 @@ Home.getLayout = function getLayout(page: ReactElement) {
   )
 }
 
-export default Home
+export default About
  
