@@ -1,14 +1,17 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement } from "react";
+import Header from "../Header/Header";
+import WhatsAppIcon from "@/assets/images/icons/whatsapp-logo.svg";
 
-const ClientLayout = ({children} : {children: ReactElement}) => {
+const ClientLayout = ({ children }: { children: ReactElement }) => {
   return (
     <div>
-        client layout
-        {children}
+      <Header />
+      client layout
+      {children}
     </div>
-  )
-}
+  );
+};
 
-ClientLayout.displayName = "ClientLayout"
+ClientLayout.displayName = "ClientLayout";
 
-export default ClientLayout
+export default ClientLayout;
