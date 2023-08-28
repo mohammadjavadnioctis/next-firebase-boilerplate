@@ -1,9 +1,25 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { GetStaticProps } from 'next';
+import useTrans from '@/utils/hooks/useTrans';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  // fetch a list of properties from the database
+  const {locale} = context
+  return {
+    props: { ...(await serverSideTranslations(locale as string, ['common'])), },
+  };
+};
+
+
+
 export default function Home() {
+  const t = useTrans()
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -20,7 +36,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{' '}
+            By{' '} {t('ANA SAYFA')}
             <Image
               src="/vercel.svg"
               alt="Vercel Logo"
@@ -52,7 +68,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
+            Docs{' '} 
             <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
               -&gt;
             </span>
